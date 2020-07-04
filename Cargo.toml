@@ -1,0 +1,5 @@
+[workspace]
+members = [
+  "std-io-peek",
+  "futures-util-io-peek",
+]
