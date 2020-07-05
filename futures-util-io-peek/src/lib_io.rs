@@ -151,7 +151,12 @@ mod tokio_tcp_stream {
 }
 
 // ref https://github.com/stjepang/async-io/blob/v0.1.1/src/lib.rs#L1249
-#[allow(dead_code)]
+#[cfg(any(
+    feature = "async_io_async",
+    feature = "smol_async",
+    feature = "async_std_tcp_stream",
+    feature = "tokio_tcp_stream"
+))]
 fn poll_once<T>(cx: &mut Context<'_>, fut: impl Future<Output = T>) -> Poll<T> {
     futures_util::pin_mut!(fut);
     fut.poll(cx)
