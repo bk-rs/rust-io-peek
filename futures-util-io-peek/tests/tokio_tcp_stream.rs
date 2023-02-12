@@ -7,7 +7,7 @@ use tokio::{
     net::{TcpListener, TcpStream},
 };
 
-use futures_util_io_peek::AsyncPeekExt;
+use futures_util_io_peek::AsyncPeekExt as _;
 
 #[tokio::test]
 async fn tcp_stream() -> Result<(), Box<dyn std::error::Error>> {
