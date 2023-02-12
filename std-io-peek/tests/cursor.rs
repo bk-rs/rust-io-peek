@@ -1,10 +1,9 @@
-use std::io::Cursor;
-use std::io::{self, Read};
+use std::io::{Cursor, Read as _};
 
 use std_io_peek::Peek;
 
 #[test]
-fn sample() -> io::Result<()> {
+fn sample() -> Result<(), Box<dyn std::error::Error>> {
     let mut cursor = Cursor::new(vec![1, 2, 3]);
     let mut buf = vec![0; 5];
 

@@ -1,10 +1,12 @@
-use std::io::{self, Read, Write};
-use std::net::{TcpListener, TcpStream};
+use std::{
+    io::{Read as _, Write as _},
+    net::{TcpListener, TcpStream},
+};
 
 use std_io_peek::Peek;
 
 #[test]
-fn sample() -> io::Result<()> {
+fn sample() -> Result<(), Box<dyn std::error::Error>> {
     let listener = TcpListener::bind("127.0.0.1:0")?;
     let addr = listener.local_addr()?;
 
@@ -14,21 +16,18 @@ fn sample() -> io::Result<()> {
         .next()
         .expect("Get next incoming failed")?;
 
-    println!(
-        "addr {:?}, stream_c {:?} stream_s {:?}",
-        addr, stream_c, stream_s
-    );
+    println!("addr:{addr:?}, stream_c:{stream_c:?} stream_s:{stream_s:?}");
 
     //
     let mut buf = vec![0; 5];
 
-    stream_s.write(vec![1, 2, 3].as_ref())?;
+    stream_s.write_all(vec![1, 2, 3].as_ref())?;
 
     let n = stream_c.peek_sync(&mut buf)?;
     assert_eq!(buf, vec![1, 2, 3, 0, 0]);
     assert_eq!(n, 3);
 
-    stream_s.write(vec![4].as_ref())?;
+    stream_s.write_all(vec![4].as_ref())?;
 
     let n = stream_c.peek_sync(&mut buf)?;
     assert_eq!(buf, vec![1, 2, 3, 4, 0]);

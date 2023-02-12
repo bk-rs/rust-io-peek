@@ -1,5 +1,6 @@
 #![forbid(unsafe_code)]
 
+//
 mod lib_io;
 pub use lib_io::AsyncPeek;
 
@@ -18,11 +19,12 @@ impl<R: AsyncPeek + ?Sized> AsyncPeekExt for R {}
 mod peek {
     use crate::AsyncPeek;
 
+    use core::{
+        future::Future,
+        pin::Pin,
+        task::{Context, Poll},
+    };
     use std::io;
-    use std::pin::Pin;
-
-    use futures_util::future::Future;
-    use futures_util::task::{Context, Poll};
 
     pub struct Peek<'a, R: ?Sized> {
         reader: &'a mut R,
@@ -51,12 +53,13 @@ pub use peek::*;
 mod cursor {
     use crate::AsyncPeek;
 
+    use core::{
+        pin::Pin,
+        task::{Context, Poll},
+    };
     use std::io;
-    use std::pin::Pin;
 
-    use futures_util::io::AsyncBufRead;
-    use futures_util::io::Cursor;
-    use futures_util::task::{Context, Poll};
+    use futures_util::io::{AsyncBufRead as _, Cursor};
 
     impl<T: AsRef<[u8]> + Unpin> AsyncPeek for Cursor<T> {
         fn poll_peek(

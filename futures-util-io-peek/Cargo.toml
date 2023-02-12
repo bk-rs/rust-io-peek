@@ -2,7 +2,7 @@
 name = "futures-util-io-peek"
 version = "0.1.0"
 authors = ["vkill <vkill.net@gmail.com>"]
-edition = "2018"
+edition = "2021"
 description = "AsyncPeek trait"
 license = "Apache-2.0 OR MIT"
 repository = "https://github.com/vkill/rust-io-peek"
@@ -12,20 +12,23 @@ keywords = ["peek"]
 categories = []
 readme = "README.md"
 
+[package.metadata.docs.rs]
+all-features = true
+
 [features]
+default = ["async_io_async", "tokio_tcp_stream"]
 async_io_async = ["async-io"]
-smol_async = ["smol"]
-async_std_tcp_stream = ["async-std"]
 tokio_tcp_stream = ["tokio"]
 
 [dependencies]
 futures-util = { version = "0.3", default-features = false, features = ["io"] }
 
-async-io = { version = "0.1", default-features = false, features = [], optional = true }
-smol = { version = "0.1", default-features = false, features = [], optional = true }
-async-std = { version = "1", default-features = false, features = ["default"], optional = true }
-tokio = { version = "0.2", default-features = false, features = ["tcp"], optional = true }
+async-io = { version = "1", default-features = false, features = [], optional = true }
+tokio = { version = "1", default-features = false, features = ["net"], optional = true }
 
 [dev-dependencies]
-futures-executor = { version = "0.3", default-features = false, features = ["default"] }
-tokio = { version = "0.2", default-features = false, features = ["tcp", "stream", "io-util"] }
+futures-executor = { version = "0.3" }
+tokio = { version = "1", default-features = false, features = ["macros", "rt-multi-thread", "io-util"] }
+
+[package.metadata.cargo-all-features]
+skip_optional_dependencies = true
