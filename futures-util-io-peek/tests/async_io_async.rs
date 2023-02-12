@@ -6,7 +6,6 @@ use async_io::Async;
 use futures_executor::block_on;
 use futures_util::{
     io::{AsyncReadExt as _, AsyncWriteExt as _},
-    pin_mut,
     stream::StreamExt as _,
 };
 
@@ -20,8 +19,7 @@ fn tcp_stream() -> Result<(), Box<dyn std::error::Error>> {
         let addr = listener.get_ref().local_addr()?;
 
         let mut stream_c = Async::<TcpStream>::connect(addr).await?;
-        let incoming = listener.incoming();
-        pin_mut!(incoming);
+        let mut incoming = Box::pin(listener.incoming());
         let mut stream_s = incoming.next().await.ok_or("incoming.next none")??;
 
         println!("addr:{addr:?}, stream_c:{stream_c:?} stream_s:{stream_s:?}");
