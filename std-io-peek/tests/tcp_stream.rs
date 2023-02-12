@@ -3,7 +3,7 @@ use std::{
     net::{TcpListener, TcpStream},
 };
 
-use std_io_peek::Peek;
+use std_io_peek::Peek as _;
 
 #[test]
 fn sample() -> Result<(), Box<dyn std::error::Error>> {

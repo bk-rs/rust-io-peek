@@ -1,12 +1,10 @@
-use std::io;
-
 use futures_executor::block_on;
 use futures_util::io::{AsyncReadExt as _, Cursor};
 
 use futures_util_io_peek::AsyncPeekExt as _;
 
 #[test]
-fn sample() -> io::Result<()> {
+fn sample() -> Result<(), Box<dyn std::error::Error>> {
     block_on(async {
         let mut cursor = Cursor::new(vec![1, 2, 3]);
         let mut buf = vec![0; 5];

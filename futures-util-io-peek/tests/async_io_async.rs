@@ -10,7 +10,7 @@ use futures_util::{
     stream::StreamExt as _,
 };
 
-use futures_util_io_peek::AsyncPeekExt;
+use futures_util_io_peek::AsyncPeekExt as _;
 
 // ref https://github.com/smol-rs/async-io/blob/master/tests/async.rs#L64
 #[test]
