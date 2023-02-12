@@ -91,9 +91,7 @@ mod async_io_async {
 mod tokio_tcp_stream {
     use super::*;
 
-    use core::future::Future as _;
-
-    use tokio::net::TcpStream;
+    use tokio::{io::ReadBuf, net::TcpStream};
 
     // https://docs.rs/tokio/1.25.0/tokio/net/struct.TcpStream.html#method.peek
     impl AsyncPeek for TcpStream {
@@ -102,9 +100,7 @@ mod tokio_tcp_stream {
             cx: &mut Context<'_>,
             buf: &mut [u8],
         ) -> Poll<io::Result<usize>> {
-            let fut = self.get_mut().peek(buf);
-            futures_util::pin_mut!(fut);
-            fut.poll(cx)
+            TcpStream::poll_peek(&self, cx, &mut ReadBuf::new(buf))
         }
     }
 }
